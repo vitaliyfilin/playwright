@@ -2,8 +2,10 @@
 @Devtools:true
 Feature: Practice form feature
 
-  Scenario: Successful form fill
+  Background:
     Given I navigate to the main page
+
+  Scenario: Successful form fill
     Given I navigate to practice form page
     When I fill practice form fields with the following data
       | First Name      | John                    |

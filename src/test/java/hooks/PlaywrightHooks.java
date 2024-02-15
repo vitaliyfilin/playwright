@@ -5,8 +5,10 @@ import io.cucumber.java.*;
 import model.ScenarioTag;
 
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 public class PlaywrightHooks {
     private Playwright playwright;
@@ -71,9 +73,10 @@ public class PlaywrightHooks {
     @AfterStep
     public void afterStep(Scenario scenario) {
         if (scenario.isFailed()) {
+            var filePath = getScreenshotPath(scenario);
             page.screenshot(new Page
                     .ScreenshotOptions()
-                    .setPath(Paths.get("screenshot.jpg")));
+                    .setPath(Paths.get(filePath)));
         }
     }
 
@@ -107,6 +110,19 @@ public class PlaywrightHooks {
             return scenarioTags;
         }
         return null;
+    }
+
+    private String getScreenshotPath(Scenario scenario) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String currentDate = dateFormat.format(new Date());
+
+        String scenarioName = scenario.getName().replaceAll("[^a-zA-Z0-9.-]", "_");
+
+        String folderName = "screenshots/" + scenarioName + "_" + currentDate;
+
+        Paths.get(folderName).toFile().mkdirs();
+
+        return folderName + "/screenshot.jpg";
     }
 
     private BrowserType getBrowserType(String label) {

@@ -15,7 +15,7 @@ public class PracticeFormPage extends PageBase {
         super(page);
         this.practiceFormControlFactory = new PracticeFormControlFactory(this);
         this.submitButton = page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Submit"));
-        this.thanksHeader = page.getByRole(AriaRole.COLUMNHEADER, new Page.GetByRoleOptions().setName("Thanks"));
+        this.thanksHeader = page.getByText("Thanks");
     }
 
     public void navigateToPracticeFormPage() {
